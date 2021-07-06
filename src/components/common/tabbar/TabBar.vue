@@ -15,7 +15,7 @@ export default {
   background-color: #f6f6f6;
   display: flex;
   position: fixed;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   right: 0;
   text-align: center;
