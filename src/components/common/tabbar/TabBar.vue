@@ -12,6 +12,7 @@ export default {
 
 <style>
 #tab-bar{
+  z-index: 999;
   background-color: #f6f6f6;
   display: flex;
   position: fixed;

@@ -18,10 +18,15 @@ export default {
         return []
       }
     }
-  }
+  },
+  computed: {
+    showKey(){
+      return this.goods.shopID || this.goods.shop_id
+    }
+  },
 }
 </script>
-<style>
+<style scoped>
   #goods{
     display: flex;
     flex-wrap: wrap;

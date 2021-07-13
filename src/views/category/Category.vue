@@ -116,13 +116,13 @@ export default {
   },
   mounted() {
     new BScroll(document.querySelector('.wrapper'),{
-
+      click: true
     })
   },
 }
 </script>
 
-<style>
+<style  scoped>
   .wrapper{
     width: 100%;
     height: 500px;

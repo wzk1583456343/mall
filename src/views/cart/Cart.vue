@@ -4,7 +4,13 @@
 
 <script>
 export default {
-  name: 'Cart'
+  name: 'Cart',
+  created() {
+    console.log("Cart created");
+  },
+  destroyed() {
+    console.log("Cart destoryed");
+  },
 }
 </script>
 

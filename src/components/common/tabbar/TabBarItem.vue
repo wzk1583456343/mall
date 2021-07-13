@@ -21,7 +21,8 @@ export default {
     itemClick(){
       if(this.$route.path != this.path)
         this.$router.push(this.path)
-    }
+    },
+
   },
   props: {
     path: String,

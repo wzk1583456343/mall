@@ -36,9 +36,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .tab-control{
-    z-index: 999;
+    z-index: 99;
     display: flex;
     width: 100%;
     text-align: center;
