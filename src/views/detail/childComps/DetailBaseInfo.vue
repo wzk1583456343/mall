@@ -49,11 +49,13 @@ export default {
   }
   .nowPrice{
     font-size: 20px;
+    color: var(--color-tint);
   }
   .oldPrice{
+    text-decoration: line-through;
     margin: 0 8px;
     font-size: 14px;
-    color: var(--color-text);
+    
   }
   .discountDesc{
     position: absolute;

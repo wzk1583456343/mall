@@ -30,6 +30,7 @@ export default {
       this.$emit('passIndex',this.activeIndex)
     },
     back(){
+      this.$bus.$off('loadAllright')
       this.$router.go(-1)
     }
   }

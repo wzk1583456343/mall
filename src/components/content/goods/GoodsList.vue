@@ -1,6 +1,6 @@
 <template>
   <div id="goods">
-    <goods-list-item v-for="item in goods" :key="item.shopID" :goodsItem="item"/>
+    <goods-list-item v-for="item in goods" :key="item.shopID" :goodsItem="item" @passGoodsList="passMessage"/>
   </div>
 </template>
 
@@ -22,6 +22,11 @@ export default {
   computed: {
     showKey(){
       return this.goods.shopID || this.goods.shop_id
+    }
+  },
+  methods: {
+    passMessage(){
+      this.$emit('passImageLoad')
     }
   },
 }

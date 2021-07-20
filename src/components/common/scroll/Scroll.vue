@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapper">
+  <div ref="wrapper" class="wrapper">
     <div class="content">
       <slot></slot>
     </div>
@@ -40,7 +40,6 @@ export default {
       this.scroll.finishPullUp()
     },
     refresh(){
-      // console.log('---');
       this.scroll.refresh()
     }
   },

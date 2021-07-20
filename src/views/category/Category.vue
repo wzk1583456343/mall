@@ -1,131 +1,146 @@
 <template>
-  <div class="wrapper">
-    <ul class="content">
-      <li>列表数据1</li>
-      <li>列表数据2</li>
-      <li>列表数据3</li>
-      <li>列表数据4</li>
-      <li>列表数据5</li>
-      <li>列表数据6</li>
-      <li>列表数据7</li>
-      <li>列表数据8</li>
-      <li>列表数据9</li>
-      <li>列表数据10</li>
-      <li>列表数据11</li>
-      <li>列表数据12</li>
-      <li>列表数据13</li>
-      <li>列表数据14</li>
-      <li>列表数据15</li>
-      <li>列表数据16</li>
-      <li>列表数据17</li>
-      <li>列表数据18</li>
-      <li>列表数据19</li>
-      <li>列表数据20</li>
-      <li>列表数据21</li>
-      <li>列表数据22</li>
-      <li>列表数据23</li>
-      <li>列表数据24</li>
-      <li>列表数据25</li>
-      <li>列表数据26</li>
-      <li>列表数据27</li>
-      <li>列表数据28</li>
-      <li>列表数据29</li>
-      <li>列表数据30</li>
-      <li>列表数据31</li>
-      <li>列表数据32</li>
-      <li>列表数据33</li>
-      <li>列表数据34</li>
-      <li>列表数据35</li>
-      <li>列表数据36</li>
-      <li>列表数据37</li>
-      <li>列表数据38</li>
-      <li>列表数据39</li>
-      <li>列表数据40</li>
-      <li>列表数据41</li>
-      <li>列表数据42</li>
-      <li>列表数据43</li>
-      <li>列表数据44</li>
-      <li>列表数据45</li>
-      <li>列表数据46</li>
-      <li>列表数据47</li>
-      <li>列表数据48</li>
-      <li>列表数据49</li>
-      <li>列表数据50</li>
-      <li>列表数据51</li>
-      <li>列表数据52</li>
-      <li>列表数据53</li>
-      <li>列表数据54</li>
-      <li>列表数据55</li>
-      <li>列表数据56</li>
-      <li>列表数据57</li>
-      <li>列表数据58</li>
-      <li>列表数据59</li>
-      <li>列表数据60</li>
-      <li>列表数据61</li>
-      <li>列表数据62</li>
-      <li>列表数据63</li>
-      <li>列表数据64</li>
-      <li>列表数据65</li>
-      <li>列表数据66</li>
-      <li>列表数据67</li>
-      <li>列表数据68</li>
-      <li>列表数据69</li>
-      <li>列表数据70</li>
-      <li>列表数据71</li>
-      <li>列表数据72</li>
-      <li>列表数据73</li>
-      <li>列表数据74</li>
-      <li>列表数据75</li>
-      <li>列表数据76</li>
-      <li>列表数据77</li>
-      <li>列表数据78</li>
-      <li>列表数据79</li>
-      <li>列表数据80</li>
-      <li>列表数据81</li>
-      <li>列表数据82</li>
-      <li>列表数据83</li>
-      <li>列表数据84</li>
-      <li>列表数据85</li>
-      <li>列表数据86</li>
-      <li>列表数据87</li>
-      <li>列表数据88</li>
-      <li>列表数据89</li>
-      <li>列表数据90</li>
-      <li>列表数据91</li>
-      <li>列表数据92</li>
-      <li>列表数据93</li>
-      <li>列表数据94</li>
-      <li>列表数据95</li>
-      <li>列表数据96</li>
-      <li>列表数据97</li>
-      <li>列表数据98</li>
-      <li>列表数据99</li>
-      <li>列表数据100</li>
-    </ul>
+  <div class="category">
+    <nav-bar class="categoryNav">
+      <div slot="center">商品分类</div>
+    </nav-bar>
+    <div class="mainWrapper">
+      <side-navigation class="sidenav" :listData="sideList" v-if="sideList" @itemClick="getMessages"/>
+      <div class="right">
+        <scroll class="right-wrapper" ref="categoryScroll" :probeType="3" @isShow="getPosition">
+          <sub-category :subData="subList" @subImageLoad="subRefresh"/>
+          <tab-control class="tab-control" :titles="['流行', '新款', '精选']" @TabControlClick="changeTab"/>
+          <goods-list class="categoods" :goods="detailList" v-if="detailList" @passImageLoad="refresh"/>
+        </scroll>
+      </div>
+    </div>
+    <back-top v-show="isShow" @click.native="backTop"/>
   </div>
 </template>
 
 <script>
-import BScroll from 'better-scroll'
+import {getCategoryData, getSubcategory, getCategoryDetail} from '@/network/category.js'
+import NavBar from '../../components/common/navbar/NavBar.vue'
+import SideNavigation from './childComps/SideNavigation.vue'
+import SubCategory from './childComps/SubCategory.vue'
+import Scroll from '../../components/common/scroll/Scroll.vue'
+import TabControl from '../../components/content/tabControl/TabControl.vue'
+import GoodsList from '../../components/content/goods/GoodsList.vue'
+import BackTop from '../../components/content/backTop/BackTop.vue'
 export default {
   name: 'Category',
+  components: {
+    NavBar, 
+    SideNavigation,
+    SubCategory,
+    Scroll,
+    TabControl,
+    GoodsList,
+    BackTop
+  },
   data(){
     return{
-      scroll
+      sideList: [],
+      maitKey: 3627,
+      miniWallkey: 10062603,
+      subList: [],
+      detailList: [],
+      tabType: 'pop',
+      remTop: 0,
+    }
+  },
+  computed:{
+    isShow(){
+      return -this.remTop>1200?true:false
+    }
+  },
+  created() {
+    getCategoryData().then(res => {
+      this.sideList = res.data.data.category.list
+    }),
+    getSubcategory(this.maitKey).then(res => {
+      this.subList = res.data.data.list
+    }),
+    this.getDetail(this.miniWallkey, this.tabType)
+  },
+  methods: {
+    getMessages({index, maitKey, miniWallkey}){
+      if(this.maitKey == maitKey) return
+      this.maitKey = maitKey
+      this.miniWallkey = miniWallkey 
+      getSubcategory(this.maitKey).then(res => {
+        this.subList = res.data.data.list
+      })
+      this.getDetail(this.miniWallkey, this.tabType)
+    },
+    changeTab(index){
+      const tabList = ['pop', 'new', 'sell']
+      this.getDetail(this.miniWallkey, tabList[index])
+      this.tabType = tabList[index]
+    },
+    //获取detail数据
+    getDetail(miniWallkey, type){
+      getCategoryDetail(miniWallkey, type).then(res => {
+        this.detailList = res.data
+      })
+    },
+    //刷新BScroll
+    subRefresh(){
+      this.$refs.categoryScroll.refresh()
+    },
+    refresh(){
+      this.$refs.categoryScroll.refresh()
+    },
+    //记录当前滚动位置
+    getPosition(position){
+      this.remTop = position.y
+      // console.log(this.remTop)
+    },
+    //回到顶部
+    backTop(){
+      this.$refs.categoryScroll.backTop(0, 0, 300)
     }
   },
   mounted() {
-    new BScroll(document.querySelector('.wrapper'),{
-      click: true
-    })
   },
 }
 </script>
 
-<style  scoped>
-  .wrapper{
+<style scoped>
+  .category{
+    height: 100vh;
+    position: relative;
+  }
+  .categoryNav{
+    background-color: var(--color-tint);
+    color: white;
+  }
+  .mainWrapper{
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: auto;
+    top: 44px;
+    bottom: 48px;
+  }
+  .right{
+    flex: 1;
+    width: 200px;
+    height: 100%;
+  }
+  .right-wrapper{
+    height: 100%;
+    overflow: hidden;
+  }
+  .tab-control{
     width: 100%;
-    height: 500px;
-    background-color: red;
+    height: 40px;
+  }
+  .sidenav{
+    height: 100%;
+    background-color: #F6F6F6;
+  }
+  .categoods{
+    width: 100%;
   }
 </style>

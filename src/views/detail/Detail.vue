@@ -11,7 +11,8 @@
       <goods-list :goods="recommendList" ref="recommend"/>
     </scroll>
     <back-top @click.native="back" v-show="isShow"/>
-    <detail-bottom @buyItem="buy"/>
+    <add-to-cart ref="addToCart" :passData="passData"/>
+    <detail-bottom @buyItem="addCart"/>
   </div>
 </template>
 
@@ -29,6 +30,7 @@ import GoodsList from '../../components/content/goods/GoodsList.vue'
 import {debounce} from '@/common/util.js'
 import DetailBottom from './childComps/DetailBottom.vue'
 import BackTop from '../../components/content/backTop/BackTop.vue'
+import AddToCart from './childComps/AddToCart.vue'
 
 
 export default {
@@ -44,7 +46,8 @@ export default {
     DetailCommentInfo,
     GoodsList,
     DetailBottom,
-    BackTop
+    BackTop,
+    AddToCart
   },
   data(){
     return {
@@ -65,12 +68,15 @@ export default {
     }
   },
   methods: {
-    buy(){
+    addCart(){
       this.passData.img = this.bannerData[0]
       this.passData.title = this.detailBaseData.title
       this.passData.price = this.lowNowPrice
+      this.passData.desc = this.goodsInfo.desc
       this.passData.iid = this.iid
-      console.log(this.passData)
+      this.passData.count = 1
+      // this.$store.commit('getCartData', this.passData)
+      this.$refs.addToCart.isShow = true
     },
     back(){
       this.$refs.detailScroll.backTop(0, 0, 200)
@@ -98,6 +104,7 @@ export default {
     }
   },
   created(){
+
     this.iid = this.$route.query.iid
     // this.$bus.$emit('holdActive')
     // this.iid = this.$route.params.iid
@@ -125,10 +132,7 @@ export default {
     getRecommend().then(res => {
       this.recommendList = res.data.data.list
     })
-    this.$bus.$on('loadAllright',() => {
-      console.log('ok')
-      this.$refs.detailScroll.refresh()
-    })
+    
   },
   mounted() {
     this.getItemY = debounce(() => {
@@ -139,8 +143,16 @@ export default {
       this.itemOffsetTop.push(this.$refs.recommend.$el.offsetTop)
       this.itemOffsetTop.push(Number.MAX_VALUE)
     }, 200)
+    this.$bus.$on('loadAllright',() => {
+      this.$refs.detailScroll.refresh()
+    })
   },
-
+  beforeDestroy() {
+    // this.$bus.$off('loadAllright')
+    // console.log('detail',this)
+    this.getItemY = debounce(() => {
+    }, 200)
+  },
 }
 </script>
 

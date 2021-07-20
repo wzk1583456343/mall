@@ -87,31 +87,13 @@ export default {
     this.$refs.homeScroll.refresh()
     this.$refs.homeScroll.scroll.scrollTo(0, this.$store.state.positionY, 0)
   },
-  // activated() {
-  //   console.log(this.oldPosition)
-  //   console.log("in")
-  //   if(this.$refs.homeScroll.scroll != null){
-  //     // this.$refs.homeScroll.backTop(0, this.oldPosition, 0)
-  //     this.$refs.homeScroll.scroll.scrollTo(0, this.oldPosition, 0)
-  //     // this.$refs.homeScroll.refresh()
-  //   }
-  // },
   deactivated() {
-    this.$store.state.positionY = this.$refs.homeScroll.scroll.y
+    this.$store.commit('updatePositionY', this.$refs.homeScroll.scroll.y)
   },
   methods: {
     swiperImgload(){
       this.$refs.homeScroll.refresh()
     },
-    // debounce(func, delay){
-    //   let timer = null
-    //   return function(args){
-    //     if(timer) clearTimeout(timer)
-    //     timer = setTimeout(() => {
-    //       func.apply(this, args)
-    //     }, delay)
-    //   }
-    // },
     getHomeGoods(type){
       getHomeGoods(type, this.goods[type].page + 1).then(rev => {
         this.goods[type].list.push(...rev.data.data.list)

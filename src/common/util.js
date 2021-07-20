@@ -19,10 +19,11 @@ export function format (date, fmt) {
   }
   return fmt;
 }
-//防抖函数
+
 export function debounce(func, time=200){
   let timer = null
   return function(...args){
+    // console.log(timer)
     if(timer) clearTimeout(timer)
     timer = setTimeout(() => {
       func.apply(this, args)
