@@ -32,6 +32,7 @@ export default {
     border: none;
   }
   img{
+    height: 25px;
     padding: 0;
     margin: 0;
     margin-right: 5px;

@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #tab-bar{
   z-index: 999;
   background-color: #f6f6f6;

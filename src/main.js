@@ -3,9 +3,9 @@ import App from './App.vue'
 import router from './router/index'
 import store from './store/index'
 import VueLazyLoad from 'vue-lazyload'
+import vant from 'vant'
 // import toast from './components/common/toast/toast'
-
-// Vue.use(toast)
+Vue.use(vant)
 Vue.use(VueLazyLoad, {
   loading: require('@/assets/img/common/placeholder.png')
 })

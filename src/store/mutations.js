@@ -1,3 +1,5 @@
+import Vue from "vue"
+
 export default {
     updatePositionY(state, newPositionY){
       state.positionY = newPositionY
@@ -12,17 +14,24 @@ export default {
       }
     },
     changeChecked(state, index){
-      state.cartList[index].checked = !state.cartList[index].checked
+      let newObj = state.cartList[index]
+      newObj.checked = !newObj.checked
+      state.cartList.splice(index, 1, newObj)
     },
     checkedAll(state){
       let flag = state.cartList.find(item => !item.checked)
       if(flag){
-        state.cartList.forEach(element => {element.checked = true});
+        for(let i=0; i<state.cartList.length; i++){
+          let obj1 = state.cartList[i]
+          obj1.checked = true
+          state.cartList.splice(i, 1, obj1)
+        }
       } else {
-        state.cartList.forEach(element => {element.checked = false})
+        for(let i=0; i<state.cartList.length; i++){
+          let obj1 = state.cartList[i]
+          obj1.checked = false
+          state.cartList.splice(i, 1, obj1)
+        }
       }
     }
-    // checkedAll(state){
-    //   state.cartList.forEach(element => {element.checked = true})
-    // }
 }

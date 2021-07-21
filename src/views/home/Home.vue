@@ -3,13 +3,7 @@
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
     <tab-control v-show="tabShow" :titles="['流行', '新款', '精选']" class="tab" @TabControlClick="Change" ref="tabControl1"/>
     <scroll class="content" ref="homeScroll" :probe-type="3" @isShow="isShow" :pull-up-load="true" @pullingUp="loadMore">
-      <swiper>
-        <swiper-item v-for="item in banners" :key="item.sort">
-          <a :href="item.link">
-            <img :src="item.image" alt="" @load="swiperImgload">
-          </a>
-        </swiper-item>
-      </swiper>
+      <my-swiper class="homeswiper" :bannerData="banners" @imgLoad="bannerLoad"/>
       <recommend-view :recommends="recommends"/>
       <feature/>
       <tab-control :titles="['流行', '新款', '精选']"  @TabControlClick="Change" ref="tabControl2"/>
@@ -22,7 +16,6 @@
 
 <script>
 import NavBar from '../../components/common/navbar/NavBar.vue'
-import {Swiper, SwiperItem} from '../../components/common/swiper/index.js'
 import TabControl from '@/components/content/tabControl/TabControl'
 import Scroll from '@/components/common/scroll/Scroll'
 import BackTop from '@/components/content/backTop/BackTop'
@@ -31,20 +24,20 @@ import GoodsList from '@/components/content/goods/GoodsList'
 import RecommendView from './childComps/RecommendView.vue'
 import Feature from './childComps/FeatureView.vue'
 import {getHomeMultiData, getHomeGoods} from '../../network/home'
+import MySwiper from '../../components/common/swiper/MySwiper.vue'
 
 
 export default {
   name: 'Home',
   components: {
     NavBar,
-    SwiperItem,
-    Swiper,
     Scroll,
     RecommendView,
     Feature,
     TabControl,
     GoodsList,
     BackTop,
+    MySwiper,
   },
   data(){
     return{
@@ -91,7 +84,7 @@ export default {
     this.$store.commit('updatePositionY', this.$refs.homeScroll.scroll.y)
   },
   methods: {
-    swiperImgload(){
+    bannerLoad(){
       this.$refs.homeScroll.refresh()
     },
     getHomeGoods(type){
@@ -128,6 +121,9 @@ export default {
 </script>
 
 <style scoped>
+.homeswiper{
+  position: relative;
+}
 #home{
   height: 100vh;
   position: relative;

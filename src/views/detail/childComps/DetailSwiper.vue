@@ -1,13 +1,9 @@
 <template>
-  <swiper class="swiper">
-    <swiper-item v-for="(item, index) in bannerImageData" :key=index>
-      <img :src="item" alt="">
-    </swiper-item>
-  </swiper>
+  <my-swiper @imgLoad="detailImgLoad" :bannerData="bannerImageData" class="detailswiper"/>
 </template>
 
 <script>
-import {Swiper, SwiperItem} from '@/components/common/swiper/index.js'
+import MySwiper from '../../../components/common/swiper/MySwiper.vue'
 
 export default {
   name: 'DetailSwiper',
@@ -19,15 +15,18 @@ export default {
       }
     }
   },
-  components: {
-    Swiper,
-    SwiperItem
-  }
+  components: { MySwiper },
+  methods: {
+    detailImgLoad(){
+      // console.log('ok');
+    }
+  },
 }
 </script>
 
 <style scoped>
-.swiper{
+.detailswiper{
+  position: relative;
   height: 300px;
   overflow: hidden;
 }

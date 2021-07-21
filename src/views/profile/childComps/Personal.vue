@@ -26,7 +26,7 @@
   
 </template>
 
-<script>
+<script scoped>
 export default {
   name: 'Personal',
   data(){
@@ -60,7 +60,11 @@ export default {
     width: 20%;
     margin-right: 7px;
   }
+  img{
+    width: 25px;
+  }
   .avatar img{
+    /* height: 25px;  */
     width: 100%;
   }
   .load{
